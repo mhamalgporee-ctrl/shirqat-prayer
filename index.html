@@ -227,7 +227,17 @@
 
         let prayerTimes = {};
 
-        // تحديث الساعة ونظام 12 ساعة (1، 2، 3... بدلاً من 13، 14، 15)
+        // تحويل أوقات الصلاة القادمة من API (مثل 15:42) إلى نظام 12 ساعة (3:42)
+        function format12Hour(timeStr) {
+            if (!timeStr) return '';
+            let [hours, minutes] = timeStr.split(':');
+            hours = parseInt(hours, 10);
+            hours = hours % 12;
+            hours = hours ? hours : 12; // تحويل 0 إلى 12
+            return `${hours}:${minutes}`;
+        }
+
+        // تحديث الساعة الرئيسية
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
@@ -256,12 +266,12 @@
                 document.getElementById('hijriDate').textContent = `🌙 ${h.day} ${h.month.ar} ${h.year} هـ`;
 
                 const pList = [
-                    { key: 'Fajr', name: 'الفجر', icon: '🌅', time: t.Fajr },
-                    { key: 'Sunrise', name: 'الشروق', icon: '☀️', time: t.Sunrise },
-                    { key: 'Dhuhr', name: 'الظهر', icon: '🌤️', time: t.Dhuhr },
-                    { key: 'Asr', name: 'العصر', icon: '🌥️', time: t.Asr },
-                    { key: 'Maghrib', name: 'المغرب', icon: '🌅', time: t.Maghrib },
-                    { key: 'Isha', name: 'العشاء', icon: '🌙', time: t.Isha }
+                    { key: 'Fajr', name: 'الفجر', icon: '🌅', time: format12Hour(t.Fajr) },
+                    { key: 'Sunrise', name: 'الشروق', icon: '☀️', time: format12Hour(t.Sunrise) },
+                    { key: 'Dhuhr', name: 'الظهر', icon: '🌤️', time: format12Hour(t.Dhuhr) },
+                    { key: 'Asr', name: 'العصر', icon: '🌥️', time: format12Hour(t.Asr) },
+                    { key: 'Maghrib', name: 'المغرب', icon: '🌅', time: format12Hour(t.Maghrib) },
+                    { key: 'Isha', name: 'العشاء', icon: '🌙', time: format12Hour(t.Isha) }
                 ];
 
                 let html = '';

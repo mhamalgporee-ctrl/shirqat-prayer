@@ -14,7 +14,7 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* الشاشة الافتتاحية بالصورة الجديدة */
+        /* الشاشة الافتتاحية باستخدام صورة splash.jpg */
         #splashScreen {
             position: fixed;
             top: 0;
@@ -177,7 +177,7 @@
         </div>
 
         <div class="clock-card">
-            <div class="clock-display" id="clock">00:00:00 ص</div>
+            <div class="clock-display" id="clock">12:00:00 ص</div>
             <div class="designer-sub">تصميم محمد علي احمد الحطاب الجبوري</div>
         </div>
 
@@ -216,6 +216,7 @@
     </div>
 
     <script>
+        // إخفاء الشاشة الافتتاحية بعد 2.5 ثانية
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splashScreen');
@@ -226,6 +227,7 @@
 
         let prayerTimes = {};
 
+        // تحديث الساعة ونظام 12 ساعة (1، 2، 3... بدلاً من 13، 14، 15)
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();

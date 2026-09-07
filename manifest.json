@@ -4,14 +4,14 @@
   "description": "تطبيق لمعرفة مواقيت الصلاة وحالة الطقس اليومية لمدينة الشرقاط",
   "icons": [
     {
-      "src": "splash.jpg",
-      "type": "image/jpeg",
+      "src": "1788697078914.png",
+      "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "splash.jpg",
-      "type": "image/jpeg",
+      "src": "1788697078914.png",
+      "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
     }

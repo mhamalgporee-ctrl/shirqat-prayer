@@ -1,24 +1,17 @@
 {
-  "name": "مواقيت الصلاة والطقس في الشرقاط",
   "short_name": "صلاة الشرقاط",
-  "description": "تطبيق لعرض مواقيت الصلاة الدقيقة وحالة الطقس والساعة الحالية في مدينة الشرقاط، تصميم محمد علي احمد الحطاب الجبوري.",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#06152a",
-  "theme_color": "#06152a",
-  "orientation": "portrait",
+  "name": "مواقيت الصلاة والطقس في الشرقاط",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2933/2933804.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2933/2933804.png",
+      "src": "splash.jpg",
+      "type": "image/jpeg",
       "sizes": "512x512",
-      "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "start_url": "./index.html",
+  "background_color": "#080f1a",
+  "theme_color": "#0b1a2e",
+  "display": "standalone",
+  "orientation": "portrait"
 }

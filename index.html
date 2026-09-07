@@ -1,10 +1,182 @@
-{
-  "name": "مواقيت الصلاة في الشرقاط",
-  "short_name": "صلاة الشرقاط",
-  "description": "تطبيق لعرض مواقيت الصلاة الدقيقة وحالة الطقس في مدينة الشرقاط، تصميم محمد علي احمد الحطاب الجبوري.",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#06152a",
-  "theme_color": "#06152a",
-  "orientation": "portrait"
-}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة والطقس - الشرقاط</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#06152a">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #06152a;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #4da6ff;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        .clock-card {
+            background: linear-gradient(135deg, rgba(77, 166, 255, 0.15), rgba(6, 21, 42, 0.8));
+            border: 1px solid rgba(77, 166, 255, 0.3);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .clock-time {
+            font-size: 2.3rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+        .clock-date {
+            font-size: 0.95rem;
+            color: #4da6ff;
+            margin-top: 5px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .card h2 {
+            font-size: 1.1rem;
+            color: #4da6ff;
+            margin-bottom: 12px;
+        }
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 5px 0;
+        }
+        .weather-details {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .time-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #b0c4de;
+            font-size: 1rem;
+        }
+        .value {
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 1.05rem;
+        }
+        .footer {
+            font-size: 0.8rem;
+            color: #7a92ac;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مواقيت الصلاة والطقس في الشرقاط</h1>
+
+        <div class="clock-card">
+            <div class="clock-time" id="liveClock">00:00:00</div>
+            <div class="clock-date" id="liveDate">جاري تحميل التاريخ...</div>
+        </div>
+
+        <div class="card">
+            <h2>حالة الطقس اليوم</h2>
+            <div id="weather">جاري تحميل الطقس...</div>
+        </div>
+
+        <div class="card">
+            <h2>مواقيت الصلاة</h2>
+            <div id="prayers">جاري تحميل المواقيت...</div>
+        </div>
+
+        <div class="footer">
+            تصميم: محمد علي أحمد الحطاب الجبوري
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const formattedHours = String(hours).padStart(2, '0');
+
+            document.getElementById('liveClock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('liveDate').textContent = now.toLocaleDateString('ar-IQ', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=35.4883&longitude=43.2389&current_weather=true')
+            .then(res => res.json())
+            .then(data => {
+                const temp = Math.round(data.current_weather.temperature);
+                const wind = data.current_weather.windspeed;
+                document.getElementById('weather').innerHTML = `
+                    <div class="weather-temp">${temp}°C</div>
+                    <div style="color: #b0c4de; margin-bottom: 8px;">الشرقاط، صلاح الدين</div>
+                    <div class="weather-details">
+                        <span>💨 سرعة الرياح: ${wind} كم/س</span>
+                    </div>
+                `;
+            })
+            .catch(() => {
+                document.getElementById('weather').innerHTML = '<p>تعذر جلب حالة الطقس</p>';
+            });
+
+        fetch('https://api.aladhan.com/v1/timingsByCity?city=Shirqat&country=Iraq&method=3')
+            .then(res => res.json())
+            .then(data => {
+                const t = data.data.timings;
+                document.getElementById('prayers').innerHTML = `
+                    <div class="time-row"><span class="label">الفجر</span><span class="value">${t.Fajr}</span></div>
+                    <div class="time-row"><span class="label">الشروق</span><span class="value">${t.Sunrise}</span></div>
+                    <div class="time-row"><span class="label">الظهر</span><span class="value">${t.Dhuhr}</span></div>
+                    <div class="time-row"><span class="label">العصر</span><span class="value">${t.Asr}</span></div>
+                    <div class="time-row"><span class="label">المغرب</span><span class="value">${t.Maghrib}</span></div>
+                    <div class="time-row"><span class="label">العشاء</span><span class="value">${t.Isha}</span></div>
+                `;
+            })
+            .catch(() => {
+                document.getElementById('prayers').innerHTML = '<p>تعذر جلب مواقيت الصلاة</p>';
+            });
+    </script>
+</body>
+</html>

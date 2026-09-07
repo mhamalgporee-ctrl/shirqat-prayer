@@ -1,12 +1,19 @@
 {
   "short_name": "صلاة الشرقاط",
   "name": "مواقيت الصلاة والطقس في الشرقاط",
+  "description": "تطبيق لمعرفة مواقيت الصلاة وحالة الطقس اليومية لمدينة الشرقاط",
   "icons": [
     {
       "src": "splash.jpg",
       "type": "image/jpeg",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "splash.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "start_url": "./index.html",
